@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'join.dart';
+import 'create.dart';
 
 void main() {
   runApp(MyApp());
@@ -78,7 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Criar sala',
                     style: TextStyle(fontSize: 21),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CreatePage()),
+                    );
+                  },
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
