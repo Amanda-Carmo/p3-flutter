@@ -20,9 +20,10 @@ class _JoinPageState extends State<JoinPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Ingressar em uma sala existente',
+                'Ingressar em uma sala',
                 style: TextStyle(fontSize: 27),
               ),
+              SizedBox(height: 13),
               SizedBox(
                 width: 290,
                 child: TextFormField(
@@ -36,7 +37,7 @@ class _JoinPageState extends State<JoinPage> {
                       labelText: 'Insira o código da sala'),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 25),
               ButtonBar(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
