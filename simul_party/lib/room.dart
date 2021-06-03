@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'join.dart';
 import 'main.dart';
 
-class RoomPage extends StatefulWidget {
+class RoomGuestPage extends StatefulWidget {
   @override
-  _RoomPageState createState() => _RoomPageState();
+  _RoomGuestPageState createState() => _RoomGuestPageState();
 }
 
-class _RoomPageState extends State<RoomPage> {
+class _RoomGuestPageState extends State<RoomGuestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +16,12 @@ class _RoomPageState extends State<RoomPage> {
           // the App.build method, and use it to set our appbar title.
           title: Text('Simul Party'),
         ),
-        body: Center(
-          child: Column(
+        body: new Center(
+          child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[],
+            children: <Widget>[
+              Text(''),
+            ],
           ),
         ));
   }

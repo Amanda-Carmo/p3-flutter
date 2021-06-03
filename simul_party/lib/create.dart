@@ -9,6 +9,8 @@ class CreatePage extends StatefulWidget {
   _CreatePageState createState() => _CreatePageState();
 }
 
+List codes = [];
+
 class _CreatePageState extends State<CreatePage> {
   var _code = ' ';
   bool isChecked = false;
@@ -21,18 +23,6 @@ class _CreatePageState extends State<CreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return Colors.red;
-    }
-
     return Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -87,8 +77,10 @@ class _CreatePageState extends State<CreatePage> {
                       style: TextStyle(fontSize: 21),
                     ),
                     onPressed: () {
-                      _code = getRandomString(6);
+                      _code = getRandomString(7);
                       print(_code);
+                      codes.add(_code);
+                      print(codes);
                     },
                   ),
                 ],
