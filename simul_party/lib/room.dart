@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'page_manager.dart';
 import 'join.dart';
 import 'main.dart';
 
@@ -8,6 +10,13 @@ class RoomGuestPage extends StatefulWidget {
 }
 
 class _RoomGuestPageState extends State<RoomGuestPage> {
+  late final PageManager _pageManager;
+  @override
+  void initState() {
+    super.initState();
+    _pageManager = PageManager();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +29,12 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(''),
+              ProgressBar(progress: Duration.zero, total: Duration.zero),
+              IconButton(
+                iconSize: 32.0,
+                icon: Icon(Icons.play_arrow),
+                onPressed: () {},
+              )
             ],
           ),
         ));
