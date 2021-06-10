@@ -18,6 +18,12 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
   }
 
   @override
+  void dispose() {
+    _pageManager.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -26,16 +32,49 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
           title: Text('Simul Party'),
         ),
         body: new Center(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ProgressBar(progress: Duration.zero, total: Duration.zero),
-              IconButton(
-                iconSize: 32.0,
-                icon: Icon(Icons.play_arrow),
-                onPressed: () {},
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(50),
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ValueListenableBuilder<ProgressBarState>(
+                  valueListenable: _pageManager.progressNotifier,
+                  builder: (_, value, __) {
+                    return ProgressBar(
+                      progress: value.current,
+                      buffered: value.buffered,
+                      total: value.total,
+                    );
+                  },
+                ),
+                ValueListenableBuilder<ButtonState>(
+                  valueListenable: _pageManager.buttonNotifier,
+                  builder: (_, value, __) {
+                    switch (value) {
+                      case ButtonState.loading:
+                        return Container(
+                          margin: EdgeInsets.all(8.0),
+                          width: 32.0,
+                          height: 32.0,
+                          child: CircularProgressIndicator(),
+                        );
+                      case ButtonState.paused:
+                        return IconButton(
+                          icon: Icon(Icons.play_arrow),
+                          iconSize: 32.0,
+                          onPressed: _pageManager.play,
+                        );
+                      case ButtonState.playing:
+                        return IconButton(
+                          icon: Icon(Icons.pause),
+                          iconSize: 32.0,
+                          onPressed: _pageManager.pause,
+                        );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ));
   }
