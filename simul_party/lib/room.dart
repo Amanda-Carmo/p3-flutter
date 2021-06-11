@@ -37,10 +37,12 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                // ------------------------- Player ----------------------------
                 ValueListenableBuilder<ProgressBarState>(
                   valueListenable: _pageManager.progressNotifier,
                   builder: (_, value, __) {
                     return ProgressBar(
+                      onSeek: _pageManager.seek,
                       progress: value.current,
                       buffered: value.buffered,
                       total: value.total,
@@ -72,6 +74,7 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
                         );
                     }
                   },
+                  // ------------------------------------------------------------
                 ),
               ],
             ),
