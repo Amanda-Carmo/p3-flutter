@@ -19,8 +19,12 @@ class PageManager {
   final buttonNotifier = ValueNotifier<ButtonState>(ButtonState.paused);
 
   // Funcionalidade de pular para o prox e anterior
-  // final nextNotifier = ;
-  // final previousNotifier = ;
+  final firstNotifier = ValueNotifier<bool>(true);
+  final lastNotifier = ValueNotifier<bool>(true);
+
+  // Funcionalidade para playlist
+  final playlistNotifier = ValueNotifier<List<String>>([]);
+  final songTitleNotifier = ValueNotifier<String>('');
 
   // Usando as músicas listadas em: https://www.soundhelix.com/audio-examples
 
@@ -129,6 +133,28 @@ class PageManager {
     });
 
     // Fazendo a playlist:
+    _audioPlayer.sequenceStateStream.listen((sequenceState) {
+      if (sequenceState == null) return;
+
+      // Msc atual
+      final thisItem = sequenceState.currentSource;
+      final title = thisItem?.tag as String?;
+      songTitleNotifier.value = title ?? '';
+
+      // playlist
+      final playlist = sequenceState.effectiveSequence;
+      final titles = playlist.map((item) => item.tag as String).toList();
+      playlistNotifier.value = titles;
+
+      // update previous and next buttons
+      if (playlist.isEmpty || thisItem == null) {
+        firstNotifier.value = true;
+        lastNotifier.value = true;
+      } else {
+        firstNotifier.value = playlist.first == thisItem;
+        lastNotifier.value = playlist.last == thisItem;
+      }
+    });
   }
 
   // Métodos para pausar um continuar a música (front --> onPressed)------------
@@ -150,6 +176,14 @@ class PageManager {
 
   void dispose() {
     _audioPlayer.dispose();
+  }
+
+  void onPreviousSongButtonPressed() {
+    _audioPlayer.seekToPrevious();
+  }
+
+  void onNextSongButtonPressed() {
+    _audioPlayer.seekToNext();
   }
 }
 

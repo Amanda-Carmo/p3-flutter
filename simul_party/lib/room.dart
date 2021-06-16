@@ -49,32 +49,58 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
                     );
                   },
                 ),
-                ValueListenableBuilder<ButtonState>(
-                  valueListenable: _pageManager.buttonNotifier,
-                  builder: (_, value, __) {
-                    switch (value) {
-                      case ButtonState.loading:
-                        return Container(
-                          margin: EdgeInsets.all(8.0),
-                          width: 32.0,
-                          height: 32.0,
-                          child: CircularProgressIndicator(),
-                        );
-                      case ButtonState.paused:
+                ButtonBar(
+                  children: <Widget>[
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _pageManager.firstNotifier,
+                      builder: (_, isFirst, __) {
                         return IconButton(
-                          icon: Icon(Icons.play_arrow),
-                          iconSize: 32.0,
-                          onPressed: _pageManager.play,
+                          icon: Icon(Icons.skip_previous),
+                          onPressed: (isFirst)
+                              ? null
+                              : _pageManager.onPreviousSongButtonPressed,
                         );
-                      case ButtonState.playing:
+                      },
+                    ),
+                    ValueListenableBuilder<ButtonState>(
+                      valueListenable: _pageManager.buttonNotifier,
+                      builder: (_, value, __) {
+                        switch (value) {
+                          case ButtonState.loading:
+                            return Container(
+                              margin: EdgeInsets.all(8.0),
+                              width: 32.0,
+                              height: 32.0,
+                              child: CircularProgressIndicator(),
+                            );
+                          case ButtonState.paused:
+                            return IconButton(
+                              icon: Icon(Icons.play_arrow),
+                              iconSize: 32.0,
+                              onPressed: _pageManager.play,
+                            );
+                          case ButtonState.playing:
+                            return IconButton(
+                              icon: Icon(Icons.pause),
+                              iconSize: 32.0,
+                              onPressed: _pageManager.pause,
+                            );
+                        }
+                      },
+                      // ------------------------------------------------------------
+                    ),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _pageManager.lastNotifier,
+                      builder: (_, isLast, __) {
                         return IconButton(
-                          icon: Icon(Icons.pause),
-                          iconSize: 32.0,
-                          onPressed: _pageManager.pause,
+                          icon: Icon(Icons.skip_next),
+                          onPressed: (isLast)
+                              ? null
+                              : _pageManager.onNextSongButtonPressed,
                         );
-                    }
-                  },
-                  // ------------------------------------------------------------
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

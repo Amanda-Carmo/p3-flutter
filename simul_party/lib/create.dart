@@ -13,6 +13,7 @@ List codes = [];
 
 class _CreatePageState extends State<CreatePage> {
   var _code = ' ';
+  var tcVisibility = false;
   bool isChecked = false;
   static const _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -38,32 +39,6 @@ class _CreatePageState extends State<CreatePage> {
                 style: TextStyle(fontSize: 27),
               ),
               SizedBox(height: 25),
-              SizedBox(
-                  width: 295,
-                  child: CheckboxListTile(
-                    title: Text('Visitantes podem pausar'),
-                    // checkColor: Colors.white,
-                    // fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: isChecked,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isChecked = value!;
-                      });
-                    },
-                  )),
-              SizedBox(height: 13),
-              SizedBox(
-                width: 285,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Número de votos para pausar ou pular',
-                  ),
-                ),
-              ),
-              SizedBox(height: 25),
               ButtonBar(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -73,7 +48,7 @@ class _CreatePageState extends State<CreatePage> {
                           EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
                     child: new Text(
-                      'Confirmar',
+                      'Gerar código da sala',
                       style: TextStyle(fontSize: 21),
                     ),
                     onPressed: () {
@@ -81,10 +56,19 @@ class _CreatePageState extends State<CreatePage> {
                       print(_code);
                       codes.add(_code);
                       print(codes);
+                      setState(() {
+                        tcVisibility = true;
+                      });
                     },
                   ),
                 ],
               ),
+              Visibility(
+                  visible: tcVisibility,
+                  child: Text('Seu código é: ' + _code,
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ))),
             ],
           ),
         ));
