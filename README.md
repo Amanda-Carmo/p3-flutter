@@ -85,7 +85,7 @@ C:\src\flutter>flutter doctor
 ```
 
 #### Rodando o aplicativo
-Com o repositório clonado, abra-o utilizando o editor e rode o comando:
+Com o repositório clonado, no terminal, acesse a pasta simul_party, onde foi colocado o web app, e rode:
 
 ```
 flutter run
