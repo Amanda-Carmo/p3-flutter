@@ -11,7 +11,7 @@ Veja o tópico de [_deployment_](#deployment) para ver como subir o projeto nas 
 
 Para executar o projeto, você precisa ter instalado em sua máquina: Flutter e Visual Studio. Que podem ser instaladas pelos métodos a seguir:
 
-### Visual Studio
+#### Visual Studio
 Para instalação, seguir instruções no link
 https://code.visualstudio.com/download
 
