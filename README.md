@@ -164,4 +164,8 @@ https://flutter.dev/docs/get-started/editor?tab=vscode#vscode
 #### Rodando aplicativo:
 As instruções são as mesmas dadas para o Windows e também podem ser vistas em https://flutter.dev/docs/get-started/test-drive?tab=androidstudio
 
+---
+### Referência para o player:
+- https://medium.com/flutter-community/steaming-audio-in-flutter-with-just-audio-7435fcf672bf
+
 
