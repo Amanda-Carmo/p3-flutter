@@ -37,65 +37,72 @@ class PageManager {
   PageManager() {
     _init();
   }
+
+  void _listenForChangesInPlayerState() {
+    _audioPlayer.playerStateStream.listen((playerState) {
+      final isPlaying = playerState.playing;
+      final processingState = playerState.processingState;
+      if (processingState == ProcessingState.loading ||
+          processingState == ProcessingState.buffering) {
+        buttonNotifier.value = ButtonState.loading;
+      } else if (!isPlaying) {
+        buttonNotifier.value = ButtonState.paused;
+      } else if (processingState != ProcessingState.completed) {
+        buttonNotifier.value = ButtonState.playing;
+      } else {
+        _audioPlayer.seek(Duration.zero);
+        _audioPlayer.pause();
+      }
+    });
+  }
+
   void _init() async {
+    // Inicia o player
     _audioPlayer = AudioPlayer();
+    _listenForChangesInPlayerState();
 
     final song1 = Uri.parse(
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
+        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     final song2 = Uri.parse(
-        "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3");
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
     final song3 = Uri.parse(
         'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3');
     final song4 = Uri.parse(
         'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
 
     _playlist = ConcatenatingAudioSource(children: [
-      AudioSource.uri(song1,
-          tag: AudioMetadata(
-              album: 'Public Domain',
-              title: 'Nature Sounds',
-              artwork:
-                  "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg")),
-      AudioSource.uri(song2,
-          tag: AudioMetadata(
-              album: 'Science friday',
-              title: 'A Salute To Head-Scratching Science (30 seconds)',
-              artwork:
-                  "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg")),
-      AudioSource.uri(song3,
-          tag: AudioMetadata(
-              album: 'Sound helix',
-              title: 'Song 3',
-              artwork:
-                  "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"))
+      AudioSource.uri(song1, tag: 'Música 1'),
+      AudioSource.uri(song2, tag: 'Música 2'),
+      AudioSource.uri(song3, tag: 'Música 3'),
+      AudioSource.uri(song4, tag: 'Música 4'),
     ]);
 
     // await _audioPlayer.setUrl(url);
     await _audioPlayer.setAudioSource(_playlist);
 
-    // Atualiza o botão de play para pause e mostra barra de progresso quando o
-    // áudio está carregando, não está pronto para reprodução.
+    // // Atualiza o botão de play para pause e mostra barra de progresso quando o
+    // // áudio está carregando, não está pronto para reprodução.
 
-    _audioPlayer.playerStateStream.listen((playerState) {
-      final isPlaying = playerState.playing;
-      // processingState: pacote do Just Audio - estado do áudio
+    // _audioPlayer.playerStateStream.listen((playerState) {
+    //   final isPlaying = playerState.playing;
+    //   // processingState: pacote do Just Audio - estado do áudio
 
-      final processingState = playerState.processingState;
-      if (processingState == ProcessingState.loading ||
-          processingState == ProcessingState.buffering) {
-        // Caso o áudio ainda não esteja pronto, o botão abaixo da barra de
-        // reprodução mostrará o indicador circular de progresso.
-        buttonNotifier.value = ButtonState.loading;
+    //   final processingState = playerState.processingState;
+    //   if (processingState == ProcessingState.loading ||
+    //       processingState == ProcessingState.buffering) {
+    //     // Caso o áudio ainda não esteja pronto, o botão abaixo da barra de
+    //     // reprodução mostrará o indicador circular de progresso.
+    //     buttonNotifier.value = ButtonState.loading;
 
-        // Volta para posição inicial ao terminar a música
-      } else if (processingState != ProcessingState.completed) {
-        buttonNotifier.value = ButtonState.playing;
-      } else {
-        // completed
-        _audioPlayer.seek(Duration.zero);
-        _audioPlayer.pause();
-      }
-    });
+    //     // Volta para posição inicial ao terminar a música
+    //   } else if (processingState != ProcessingState.completed) {
+    //     buttonNotifier.value = ButtonState.playing;
+    //   } else {
+    //     // completed
+    //     _audioPlayer.seek(Duration.zero);
+    //     _audioPlayer.pause();
+    //   }
+    // });
 
     // Atualizando a barra de progresso:
 
@@ -202,12 +209,3 @@ class ProgressBarState {
 
 // estados em que o botão aparecerá
 enum ButtonState { paused, playing, loading }
-
-class AudioMetadata {
-  final String album;
-  final String title;
-  final String artwork;
-
-  AudioMetadata(
-      {required this.album, required this.title, required this.artwork});
-}

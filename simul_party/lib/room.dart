@@ -37,6 +37,16 @@ class _RoomGuestPageState extends State<RoomGuestPage> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                ValueListenableBuilder<String>(
+                  valueListenable: _pageManager.songTitleNotifier,
+                  builder: (_, title, __) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(title, style: TextStyle(fontSize: 40)),
+                    );
+                  },
+                ),
+                SizedBox(height: 25),
                 // ------------------------- Player ----------------------------
                 ValueListenableBuilder<ProgressBarState>(
                   valueListenable: _pageManager.progressNotifier,
