@@ -52,7 +52,7 @@ class _CreatePageState extends State<CreatePage> {
                       style: TextStyle(fontSize: 21),
                     ),
                     onPressed: () {
-                      _code = getRandomString(7);
+                      _code = getRandomString(5);
                       print(_code);
                       codes.add(_code);
                       print(codes);
