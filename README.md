@@ -2,6 +2,11 @@
 
 Link com o esquema de funcionamento do site: https://docs.google.com/drawings/d/1HXlsFHYpHYJ1fLVkuzJAhZRm3tzoKHNqCSyN53lqLOA/edit?usp=sharing
 
+**Site deploy**: 
+```
+https://Amanda-Carmo.github.io/index.html
+```
+
 ## Desenvolvimento
 
 Essas instruções vão fazer com que você tenha uma cópia do projeto rodando em sua máquina local para desevolvimento.
